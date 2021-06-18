@@ -337,8 +337,17 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#where-to-get-solar-irradiance-data">
-   Where to get Solar Irradiance Data?
+  <a class="reference internal nav-link" href="#where-to-get-free-solar-irradiance-data">
+   Where to get
+   <em>
+    Free
+   </em>
+   Solar Irradiance Data?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#where-else-can-you-get-historical-irradiance-data">
+   Where else can you get historical irradiance data?
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -398,7 +407,8 @@
 <li><p>Exploring a Pandas dataframe (<code class="docutils literal notranslate"><span class="pre">df</span></code>): <code class="docutils literal notranslate"><span class="pre">len()</span></code>, <code class="docutils literal notranslate"><span class="pre">df.head()</span></code>, <code class="docutils literal notranslate"><span class="pre">df.keys()</span></code></p></li>
 <li><p><a class="reference external" href="https://pvlib-python.readthedocs.io/en/stable/api.html#io-tools">pvlib input-output tools</a></p></li>
 <li><p>Ploting a Pandas dataframe (<code class="docutils literal notranslate"><span class="pre">df</span></code>): <code class="docutils literal notranslate"><span class="pre">df.plot()</span></code></p></li>
-<li><p>Aggregating data in a dataframe (<code class="docutils literal notranslate"><span class="pre">df</span></code>): <code class="docutils literal notranslate"><span class="pre">df.resample(freq).sum()</span></code></p></li>
+<li><p>Aggregating data in a dataframe (<code class="docutils literal notranslate"><span class="pre">df</span></code>): <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.resample.html"><code class="docutils literal notranslate"><span class="pre">df.resample(freq).sum()</span></code></a></p></li>
+<li><p>Pandas <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects"><code class="docutils literal notranslate"><span class="pre">DateOffsets</span></code></a> - shortcuts to set the frequency when resampling</p></li>
 <li><p>Getting NREL irradiance data from the web based API using pvlib</p></li>
 </ul>
 </div>
@@ -433,11 +443,6 @@
 <span class="kn">import</span> <span class="nn">pvlib</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># for data wrangling</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>  <span class="c1"># for visualization</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Matplotlib is building the font cache; this may take a moment.
 </pre></div>
 </div>
 </div>
@@ -1139,7 +1144,7 @@ plt.ylabel(‘Irradiance [W/m<span class="math notranslate nohighlight">\(^2\)</
 </div>
 <div class="section" id="aggregating-hourly-data-to-monthly-summaries">
 <h2>Aggregating hourly data to monthly summaries<a class="headerlink" href="#aggregating-hourly-data-to-monthly-summaries" title="Permalink to this headline">¶</a></h2>
-<p>Pandas makes it easy to roll-up timeseries data into summary values.  For example, we can calculate total monthly GHI as a quick way to visualize the seasonality of solar resource:</p>
+<p>Pandas makes it easy to roll-up timeseries data into summary values. We can use the <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.resample.html"><code class="docutils literal notranslate"><span class="pre">DataFrame.resample()</span></code></a> function with <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects"><code class="docutils literal notranslate"><span class="pre">DateOffsets</span></code></a> like <code class="docutils literal notranslate"><span class="pre">'M'</span></code> for months.  For example, we can calculate total monthly GHI as a quick way to visualize the seasonality of solar resource:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># summing hourly irradiance (W/m^2) gives insolation (W h/m^2)</span>
@@ -1210,8 +1215,8 @@ Freq: M, Name: GHI, dtype: int64
 </div>
 </div>
 </div>
-<div class="section" id="where-to-get-solar-irradiance-data">
-<h2>Where to get Solar Irradiance Data?<a class="headerlink" href="#where-to-get-solar-irradiance-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="where-to-get-free-solar-irradiance-data">
+<h2>Where to get <em>Free</em> Solar Irradiance Data?<a class="headerlink" href="#where-to-get-free-solar-irradiance-data" title="Permalink to this headline">¶</a></h2>
 <p>There are many different sources of solar irradiance data. For your projects, these are some of the most common:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://nsrdb.nrel.gov/data-sets/archives.html">TMY3/TMY2</a> - like the data we loaded earlier on this example. This database of TMY3 <code class="docutils literal notranslate"><span class="pre">.csv</span></code> files and TMY2 files have been archived by NREL.</p></li>
@@ -1219,6 +1224,17 @@ Freq: M, Name: GHI, dtype: int64
 <li><p><a class="reference external" href="https://www.energy.gov/eere/buildings/downloads/energyplus-0">EPW</a> - Energy Plus Weather data is available for many locations accross the world. It’s in its own format file (‘EPW’) so you can’t open it easily in a spreadsheet program like Excel, but you can use <a class="reference external" href="https://pvlib-python.readthedocs.io/en/stable/generated/pvlib.iotools.read_epw.html"><code class="docutils literal notranslate"><span class="pre">pvlib.iotools.read_epw()</span></code></a> to get it into a dataframe and use it.</p></li>
 <li><p><a class="reference external" href="https://ec.europa.eu/jrc/en/pvgis">PVGIS</a> - Free global weather data provided by the European Union and derived from many govermental agencies including the NSRDB. PVGIS also provides a web API. You can get PVGIS TMY data using <a class="reference external" href="https://pvlib-python.readthedocs.io/en/stable/generated/pvlib.iotools.get_pvgis_tmy.html"><code class="docutils literal notranslate"><span class="pre">pvlib.iotools.get_pvgis_tmy()</span></code></a>.</p></li>
 <li><p>Perhaps another useful link: <a class="reference external" href="https://sam.nrel.gov/weather-data.html">https://sam.nrel.gov/weather-data.html</a></p></li>
+</ul>
+</div>
+<div class="section" id="where-else-can-you-get-historical-irradiance-data">
+<h2>Where else can you get historical irradiance data?<a class="headerlink" href="#where-else-can-you-get-historical-irradiance-data" title="Permalink to this headline">¶</a></h2>
+<p>There are several commercial providers of solar irradiance data. Data is available at different spatial and time resolutions. Each provider offers data under subscription that will provide access to irradiance (and other weather variables) via API to leverage in python.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.solaranywhere.com/">SolarAnywhere</a></p></li>
+<li><p><a class="reference external" href="https://solargis.com/">SolarGIS</a></p></li>
+<li><p><a class="reference external" href="https://www.vaisala.com/en">Vaisala</a></p></li>
+<li><p><a class="reference external" href="https://meteonorm.com/en/">Meteonorm</a></p></li>
+<li><p><a class="reference external" href="https://src.dnvgl.com/">DNV Solar Resource Compass</a></p></li>
 </ul>
 <p><img alt="NSRDB Example" src="_images/tutorial_1_NSRDB_example.PNG" /></p>
 </div>
@@ -1260,7 +1276,7 @@ Freq: M, Name: GHI, dtype: int64
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata</span><span class="p">,</span> <span class="n">df_abq</span> <span class="o">=</span> <span class="n">pvlib</span><span class="o">.</span><span class="n">iotools</span><span class="o">.</span><span class="n">get_psm3</span><span class="p">(</span>
     <span class="n">latitude</span><span class="o">=</span><span class="mf">35.0844</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=-</span><span class="mf">106.6504</span><span class="p">,</span>
     <span class="n">api_key</span><span class="o">=</span><span class="n">NREL_API_KEY</span><span class="p">,</span>
-    <span class="n">email</span><span class="o">=</span><span class="s1">&#39;mark.mikofski@sunpowercorp.com&#39;</span><span class="p">,</span>  <span class="c1"># &lt;-- any valid email works here fine</span>
+    <span class="n">email</span><span class="o">=</span><span class="s1">&#39;mark.mikofski@dnv.com&#39;</span><span class="p">,</span>  <span class="c1"># &lt;-- any email works here fine</span>
     <span class="n">names</span><span class="o">=</span><span class="s1">&#39;tmy&#39;</span><span class="p">)</span>
 <span class="n">metadata</span>
 </pre></div>
